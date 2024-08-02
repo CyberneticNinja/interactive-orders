@@ -17,7 +17,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'order_date' => $this->faker->dateTimeBetween('2020-01-01', 'now')->format('Y-m-d'),
+            'order_date' => $this->faker->dateTimeBetween('2015-01-01', 'now')->format('Y-m-d'),
         ];
     }
 }
