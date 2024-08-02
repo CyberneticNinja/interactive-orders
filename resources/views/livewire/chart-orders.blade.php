@@ -1,6 +1,6 @@
 <div
      wire:ignore
-     class="mt-4"
+     class="mt-4 bg-black text-white p-4 rounded-lg"
      x-data="{
          selectedYear: $wire.entangle('selectedYear').live,
          lastYearOrders: $wire.entangle('lastYearOrders').live,
@@ -11,11 +11,11 @@
                  labels: labels,
                  datasets: [{
                      label: `${this.selectedYear - 1} Orders`,
-                     backgroundColor: 'lightgray',
+                     backgroundColor: '#FFE66D', // Color for the previous year
                      data: this.lastYearOrders,
                  }, {
                      label: `${this.selectedYear} Orders`,
-                     backgroundColor: 'lightgreen',
+                     backgroundColor: '#E952DE', // Color for the current year
                      data: this.thisYearOrders,
                  }]
              };
@@ -23,7 +23,27 @@
              const config = {
                  type: 'bar',
                  data: data,
-                 options: {}
+                 options: {
+                     scales: {
+                         x: {
+                             ticks: {
+                                 color: 'white', // X-axis labels color
+                             },
+                         },
+                         y: {
+                             ticks: {
+                                 color: 'white', // Y-axis labels color
+                             },
+                         },
+                     },
+                     plugins: {
+                         legend: {
+                             labels: {
+                                 color: 'white' // Legend labels color
+                             }
+                         }
+                     }
+                 }
              };
              const myChart = new Chart(
                  this.$refs.canvas,
@@ -42,15 +62,15 @@
              })
          }
      }">
-    <span>Year: </span>
-    <select name="selectedYear" id="selectedYear" class="border" wire:model.live="selectedYear">
-        @foreach ($availableYears as $year)
-            <option value="{{ $year }}">{{ $year }}</option>
-        @endforeach
-    </select>
-
+    <span class="block mb-2">Year:
+        <select name="selectedYear" id="selectedYear" class="border bg-black text-white p-2 rounded mb-4" wire:model.live="selectedYear">
+            @foreach ($availableYears as $year)
+                <option value="{{ $year }}">{{ $year }}</option>
+            @endforeach
+        </select>
+    </span>
     <div class="my-6">
-        <div>
+        <div class="mb-2">
             <span x-text="selectedYear"></span> Orders:
             <span x-text="thisYearOrders.reduce((a, b) => a + b, 0)"></span>
         </div>
